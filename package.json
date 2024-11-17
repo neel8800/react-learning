@@ -1,0 +1,24 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "Namaste React Learning",
+  "scripts": {
+    "start": "parcel index.html",
+    "prodBuild": "parcel build index.html",
+    "test": "jest"
+  },
+  "keywords": [
+    "neel",
+    "patel"
+  ],
+  "author": "neel patel",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.0",
+    "process": "^0.11.10"
+  }
+}
