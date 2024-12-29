@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 
 const UserFunction = (props) => {
-  useEffect(() => {
-    console.log("Child useEffect");
-    const interval = setInterval(() => {
-      console.log("UserFunction component is mounted");
-    }, 1000);
+  // useEffect(() => {
+  //   console.log("Child useEffect");
+  //   const interval = setInterval(() => {
+  //     console.log("UserFunction component is mounted");
+  //   }, 1000);
 
-    /* Implementation of cmponentWillUnmount in functional component */
-    return () => {
-      console.log("Child functinal component will unmount");
-      clearInterval(interval);
-    };
-  }, []);
+  //   /* Implementation of cmponentWillUnmount in functional component */
+  //   return () => {
+  //     console.log("Child functinal component will unmount");
+  //     clearInterval(interval);
+  //   };
+  // }, []);
 
   return (
     <div className="user-card">
