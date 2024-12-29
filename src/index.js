@@ -1,14 +1,31 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
-import About from "./components/About";
-import Error from "./components/Error";
-import Contact from "./components/Contact";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import RestaurantMenu from "./components/RestaurantMenu";
+import useCheckOnlineStatus from "./utils/useCheckOnlineStatus";
 
+/* Initializing lazy loading */
+const About = lazy(() => import("./components/About"));
+const Contact = lazy(() => import("./components/Contact"));
+const RestaurantMenu = lazy(() => import("./components/RestaurantMenu"));
+const Error = lazy(() => import("./components/Error"));
+
+/* Initializing main App component */
 const App = () => {
+  /* Initializing state variables */
+  const onlineStatus = useCheckOnlineStatus();
+
+  /* Render offline component if offline */
+  if (!onlineStatus) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <h2>Oops....You are offline. Please check your internet connection.</h2>
+      </div>
+    );
+  }
+
+  /* Render actual component if online */
   return (
     <div className="container">
       <div>
@@ -21,6 +38,7 @@ const App = () => {
   );
 };
 
+/* Creating Browser Routers */
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,18 +50,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
-        element: <Contact />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contact />
+          </Suspense>
+        ),
       },
       {
         path: "/restaurant/:restaurantId",
-        element: <RestaurantMenu />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <RestaurantMenu />
+          </Suspense>
+        ),
       },
     ],
-    errorElement: <Error />,
+
+    errorElement: (
+      <Suspense fallback={<div>Error...</div>}>
+        <Error />
+      </Suspense>
+    ),
   },
 ]);
 

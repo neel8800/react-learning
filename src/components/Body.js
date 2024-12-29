@@ -1,46 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RestaurantCard from "./RestaurantCard";
 import { HOME_API } from "../utils/constants";
 import { Link } from "react-router-dom";
+import useFetchAPIContent from "../utils/useFetchAPIContent";
 
-export default Body = () => {
-  /* Initialization of State Variables */
-  const [actualListOfRestaurants, setActualListOfRestaurants] = useState(null);
+const Body = () => {
+  /* Initializing State Variables */
   const [listOfRestaurants, setListOfRestaurants] = useState(null);
   const [searchText, setSearchText] = useState("");
 
-  /* Fetching Restaurants Information from Live API */
-  useEffect(() => {
-    fetchRestaurantsData();
-  }, []);
+  /* Fetching Restaurants Information using Custom Hook */
+  /**
+   * IMPORTANT NOTE:
+   * ----------------
+   * Here the use of useFetchAPIContent make 1 extra rendering cycle as useFetchAPIContent
+   * involves useEffect which is updating state variable inside custom hook. As the state variable
+   * changes in custom hook, it triggers re-render of this component as it depends on the state
+   * variable.
+   *
+   * I have kept it with 1 extra rendering cycle as this API interaction is not heavy and it can
+   * not cause performance issue. But if the API interaction is heavy, then we can directly fetch
+   * data in this component using useEffect and update the state variable directly in this component.
+   *
+   */
+  const restaurantData = useFetchAPIContent(HOME_API);
+  const actualListOfRestaurants =
+    restaurantData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      ?.restaurants;
 
-  /* Promise to fetch restaurants from API */
-  async function fetchRestaurantsData() {
-    const data = await fetch(HOME_API);
-
-    /* Converting retrieved restaurants data to JSON format */
-    const jsonData = await data.json();
-
-    /* Setting restaurants detail */
-    setListOfRestaurants(
-      jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants
-    );
-    setActualListOfRestaurants(
-      jsonData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants
-    );
+  /* Update listOfRestaurants when actualListOfRestaurants changes */
+  if (actualListOfRestaurants && listOfRestaurants == null) {
+    setListOfRestaurants(actualListOfRestaurants);
   }
 
-  /* State Variables Updater Functions */
-  function onFilterRestaurantButtonClick(restaurants) {
-    restaurants = restaurants.filter((restaurant) => {
+  /* Function to filter restaurants by rating */
+  function onFilterRestaurantButtonClick() {
+    const filteredRestaurants = actualListOfRestaurants.filter((restaurant) => {
       return restaurant.info.avgRating > 4;
     });
-    setListOfRestaurants(restaurants);
+    setListOfRestaurants(filteredRestaurants);
   }
 
-  /* Rendering Element */
+  /* Function to filter restaurants by search text */
+  function onSearchButtonClick() {
+    const filteredRestaurants = actualListOfRestaurants.filter((restaurant) => {
+      return restaurant.info.name
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+    });
+    setListOfRestaurants(filteredRestaurants);
+  }
+
+  /* Rendering Component */
   return listOfRestaurants !== null ? (
     <div className="body-container">
       <div className="search-container">
@@ -50,25 +61,12 @@ export default Body = () => {
           value={searchText}
           onChange={(event) => setSearchText(event.target.value)}
         ></input>
-        <button
-          onClick={() => {
-            const filteredRestaurant = actualListOfRestaurants.filter(
-              (restaurant) => {
-                return restaurant.info.name
-                  .toLowerCase()
-                  .includes(searchText.toLowerCase());
-              }
-            );
-            setListOfRestaurants(filteredRestaurant);
-          }}
-        >
-          Search
-        </button>
+        <button onClick={onSearchButtonClick}>Search</button>
       </div>
       <div className="filter-button-container">
         <button
           className="filter-button"
-          onClick={() => onFilterRestaurantButtonClick(actualListOfRestaurants)}
+          onClick={onFilterRestaurantButtonClick}
         >
           Top Rated Restaurants Filter
         </button>
@@ -88,3 +86,5 @@ export default Body = () => {
     <div>Loading....</div>
   );
 };
+
+export default Body;
