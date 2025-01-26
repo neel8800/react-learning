@@ -19,7 +19,7 @@ const App = () => {
   /* Render offline component if offline */
   if (!onlineStatus) {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div className="flex justify-center items-center">
         <h2>Oops....You are offline. Please check your internet connection.</h2>
       </div>
     );
@@ -27,11 +27,11 @@ const App = () => {
 
   /* Render actual component if online */
   return (
-    <div className="container">
+    <div>
       <div>
         <Header />
       </div>
-      <div>
+      <div className="flex flex-col justify-center items-center px-4 max-w-7xl mx-auto">
         <Outlet />
       </div>
     </div>

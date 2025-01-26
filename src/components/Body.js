@@ -53,27 +53,35 @@ const Body = () => {
 
   /* Rendering Component */
   return listOfRestaurants !== null ? (
-    <div className="body-container">
-      <div className="search-container">
-        <input
-          className="search-input"
-          type="text"
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
-        ></input>
-        <button onClick={onSearchButtonClick}>Search</button>
+    <div className="flex flex-col justify-center">
+      <div className="flex flex-row p-4 items-center justify-between">
+        <div className="flex flex-row m-1 p-1 items-center">
+          <input
+            className="px-2 py-1 mx-2 my-1 bg-white text-gray-800 border border-gray-400 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-100 ease-in-out"
+            type="text"
+            value={searchText}
+            onChange={(event) => setSearchText(event.target.value)}
+          ></input>
+          <button
+            className="bg-red-500 text-white px-2 py-1 mx-2 my-1 rounded-lg hover:cursor-pointer active:scale-95 active:bg-red-600 transition-all duration-100"
+            onClick={onSearchButtonClick}
+          >
+            Search
+          </button>
+        </div>
+        <div className="flex flex-row m-1 p-1 items-center">
+          <button
+            className="bg-red-500 text-white px-2 py-1 mx-2 my-1 rounded-lg hover:cursor-pointer active:scale-95 active:bg-red-600 transition-all duration-100"
+            onClick={onFilterRestaurantButtonClick}
+          >
+            Top Rated Restaurants Filter
+          </button>
+        </div>
       </div>
-      <div className="filter-button-container">
-        <button
-          className="filter-button"
-          onClick={onFilterRestaurantButtonClick}
-        >
-          Top Rated Restaurants Filter
-        </button>
-      </div>
-      <div className="card-container">
+      <div className="flex flex-wrap gap-4 p-4 justify-between">
         {listOfRestaurants.map((individualRes) => (
           <Link
+            className="flex"
             key={individualRes.info.id}
             to={"/restaurant/" + individualRes.info.id}
           >
