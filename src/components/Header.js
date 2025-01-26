@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   const [buttonName, setButtonName] = useState("Login");
   return (
-    <div className="flex justify-between p-4 bg-white rounded-lg shadow-lg">
+    <div className="flex justify-between p-4 bg-white shadow-lg">
       <div className="flex items-center justify-between w-16">
         <img
           className="rounded-lg shadow-xl"

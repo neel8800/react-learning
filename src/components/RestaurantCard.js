@@ -29,4 +29,17 @@ const RestaurantCard = (props) => {
   );
 };
 
+export const RestaurantCardWithHigherRating = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label className="absolute bg-black text-white p-1 m-1 rounded-lg text-sm">
+          Highly Rated
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+
 export default RestaurantCard;
