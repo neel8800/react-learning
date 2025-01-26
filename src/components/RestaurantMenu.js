@@ -14,7 +14,7 @@ const RestaurantMenu = () => {
   );
 
   if (restaurantMenuData === null) {
-    return <div>Loading....</div>;
+    return <div className="flex text-lg font-bold p-4 m-4">Loading....</div>;
   }
 
   const { name, avgRating, areaName, city, cuisines } =

@@ -20,7 +20,9 @@ const App = () => {
   if (!onlineStatus) {
     return (
       <div className="flex justify-center items-center">
-        <h2>Oops....You are offline. Please check your internet connection.</h2>
+        <h2 className="flex text-lg font-bold p-4 m-4">
+          Oops....You are offline. Please check your internet connection.
+        </h2>
       </div>
     );
   }
@@ -31,7 +33,7 @@ const App = () => {
       <div>
         <Header />
       </div>
-      <div className="flex flex-col justify-center items-center px-4 max-w-7xl mx-auto">
+      <div className="flex flex-col">
         <Outlet />
       </div>
     </div>
@@ -51,7 +53,11 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex text-lg font-bold p-4 m-4">Loading...</div>
+            }
+          >
             <About />
           </Suspense>
         ),
@@ -59,7 +65,11 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex text-lg font-bold p-4 m-4">Loading...</div>
+            }
+          >
             <Contact />
           </Suspense>
         ),
@@ -67,7 +77,11 @@ const router = createBrowserRouter([
       {
         path: "/restaurant/:restaurantId",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="flex text-lg font-bold p-4 m-4">Loading...</div>
+            }
+          >
             <RestaurantMenu />
           </Suspense>
         ),
@@ -75,7 +89,11 @@ const router = createBrowserRouter([
     ],
 
     errorElement: (
-      <Suspense fallback={<div>Error...</div>}>
+      <Suspense
+        fallback={
+          <div className="flex text-lg font-bold p-4 m-4">Error...</div>
+        }
+      >
         <Error />
       </Suspense>
     ),

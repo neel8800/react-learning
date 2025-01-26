@@ -78,7 +78,7 @@ const Body = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-4 p-4 justify-between">
+      <div className="flex flex-wrap gap-4 justify-center items-center px-4 max-w-7xl mx-auto">
         {listOfRestaurants.map((individualRes) => (
           <Link
             className="flex"
@@ -91,7 +91,9 @@ const Body = () => {
       </div>
     </div>
   ) : (
-    <div>Loading....</div>
+    <div className="flex flex-wrap font-bold gap-4 justify-center items-center p-4 max-w-7xl m-auto">
+      Loading....
+    </div>
   );
 };
 
