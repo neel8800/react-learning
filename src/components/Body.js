@@ -55,8 +55,6 @@ const Body = () => {
     setListOfRestaurants(filteredRestaurants);
   }
 
-  console.log(listOfRestaurants);
-
   /* Rendering Component */
   return listOfRestaurants !== null ? (
     <div className="flex flex-col justify-center">
