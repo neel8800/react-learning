@@ -1,5 +1,7 @@
 import { useState } from "react";
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {
+  RestaurantCardWithHigherRating,
+} from "./RestaurantCard";
 import { HOME_API } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useFetchAPIContent from "../utils/useFetchAPIContent";
@@ -27,6 +29,8 @@ const Body = () => {
   const actualListOfRestaurants =
     restaurantData?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
       ?.restaurants;
+
+  const ResCardWithHighRating = RestaurantCardWithHigherRating(RestaurantCard);
 
   /* Update listOfRestaurants when actualListOfRestaurants changes */
   if (actualListOfRestaurants && listOfRestaurants == null) {
@@ -78,20 +82,26 @@ const Body = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-wrap gap-4 p-4 justify-between">
+      <div className="flex flex-wrap gap-4 justify-center items-center px-4 max-w-7xl mx-auto">
         {listOfRestaurants.map((individualRes) => (
           <Link
             className="flex"
             key={individualRes.info.id}
             to={"/restaurant/" + individualRes.info.id}
           >
-            <RestaurantCard resData={individualRes} />
+            {parseFloat(individualRes.info.avgRating) >= 4.3 ? (
+              <ResCardWithHighRating resData={individualRes} />
+            ) : (
+              <RestaurantCard resData={individualRes} />
+            )}
           </Link>
         ))}
       </div>
     </div>
   ) : (
-    <div>Loading....</div>
+    <div className="flex flex-wrap font-bold gap-4 justify-center items-center p-4 max-w-7xl m-auto">
+      Loading....
+    </div>
   );
 };
 

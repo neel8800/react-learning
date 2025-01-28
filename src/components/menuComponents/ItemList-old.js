@@ -1,4 +1,4 @@
-const ItemList = (props) => {
+const ItemListOld = (props) => {
   const { items } = props;
   if (!items) return null;
 
@@ -11,4 +11,4 @@ const ItemList = (props) => {
   );
 };
 
-export default ItemList;
+export default ItemListOld;
