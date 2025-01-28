@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import RestaurantCard, {
   RestaurantCardWithHigherRating,
 } from "./RestaurantCard";
 import { HOME_API } from "../utils/constants";
 import { Link } from "react-router-dom";
 import useFetchAPIContent from "../utils/useFetchAPIContent";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   /* Initializing State Variables */
   const [listOfRestaurants, setListOfRestaurants] = useState(null);
   const [searchText, setSearchText] = useState("");
+  const { loggedInUserName, setUserName } = useContext(UserContext);
 
   /* Fetching Restaurants Information using Custom Hook */
   /**
@@ -80,6 +82,17 @@ const Body = () => {
           >
             Top Rated Restaurants Filter
           </button>
+        </div>
+        <div className="flex flex-row m-1 p-1 items-center">
+          <label>Name: </label>
+          <input
+            className="px-2 py-1 mx-2 my-1 bg-white text-gray-800 border border-gray-400 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition duration-100 ease-in-out"
+            type="text"
+            value={loggedInUserName}
+            onChange={(event) => {
+              setUserName(event.target.value);
+            }}
+          ></input>
         </div>
       </div>
       <div className="flex flex-wrap gap-4 justify-center items-center px-4 max-w-7xl mx-auto">
