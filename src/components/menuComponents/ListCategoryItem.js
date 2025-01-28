@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { CDN_URL } from "../../utils/constants";
+import UserContext from "../../utils/UserContext";
 
 const ListCategoryItem = (props) => {
+  const userData = useContext(UserContext);
+
   return (
     <div>
       {props.menuItems?.map((item) => (
@@ -18,6 +22,7 @@ const ListCategoryItem = (props) => {
                   ? item?.card?.info?.price / 100
                   : item?.card?.info?.defaultPrice / 100}
               </span>
+              <span> {userData.loggedInUserName}</span>
             </div>
             <p className="text-xs">{item?.card?.info?.description}</p>
           </div>

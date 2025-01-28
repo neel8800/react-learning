@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { RESTAURANT_MENU_API } from "../utils/constants";
 import useFetchAPIContent from "../utils/useFetchAPIContent";
 import MenuSection from "./menuComponents/MenuSection";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import UserContext from "../utils/UserContext";
 
 const RestaurantMenu = () => {
   const [showIndex, setShowIndex] = useState(null);

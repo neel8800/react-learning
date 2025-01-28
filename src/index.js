@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import useCheckOnlineStatus from "./utils/useCheckOnlineStatus";
+import UserContext from "./utils/UserContext";
 
 /* Initializing lazy loading */
 const About = lazy(() => import("./components/About"));
@@ -15,6 +16,14 @@ const Error = lazy(() => import("./components/Error"));
 const App = () => {
   /* Initializing state variables */
   const onlineStatus = useCheckOnlineStatus();
+
+  const [userName, setUserName] = useState();
+  useEffect(() => {
+    const userInfo = {
+      userName: "Maitri",
+    };
+    setUserName(userInfo?.userName);
+  }, []);
 
   /* Render offline component if offline */
   if (!onlineStatus) {
@@ -30,12 +39,16 @@ const App = () => {
   /* Render actual component if online */
   return (
     <div>
-      <div>
-        <Header />
-      </div>
-      <div className="flex flex-col">
-        <Outlet />
-      </div>
+      <UserContext.Provider
+        value={{ loggedInUserName: userName, setUserName: setUserName }}
+      >
+        <div>
+          <Header />
+        </div>
+        <div className="flex flex-col">
+          <Outlet />
+        </div>
+      </UserContext.Provider>
     </div>
   );
 };
