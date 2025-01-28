@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ListCategoryItem from "./ListCategoryItem";
 
 const MenuSection = (props) => {
@@ -12,7 +11,9 @@ const MenuSection = (props) => {
           className="flex justify-between hover:cursor-pointer"
           onClick={handleAccordionClick}
         >
-          <span className="font-bold text-lg">{props.menuData?.title} ({props.menuData?.itemCards?.length})</span>
+          <span className="font-bold text-lg">
+            {props.menuData?.title} ({props.menuData?.itemCards?.length})
+          </span>
           <span>🔽</span>
         </div>
         {props.showItems && (
