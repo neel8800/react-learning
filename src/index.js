@@ -5,6 +5,10 @@ import Body from "./components/Body";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import useCheckOnlineStatus from "./utils/useCheckOnlineStatus";
 import UserContext from "./utils/UserContext";
+import { Provider } from "react-redux";
+import appStore from "./utils/reduxStore/appStore";
+import Cart from "./components/Cart";
+import Grocery from "./components/Grocery";
 
 /* Initializing lazy loading */
 const About = lazy(() => import("./components/About"));
@@ -20,7 +24,7 @@ const App = () => {
   const [userName, setUserName] = useState();
   useEffect(() => {
     const userInfo = {
-      userName: "Maitri",
+      userName: "Neel",
     };
     setUserName(userInfo?.userName);
   }, []);
@@ -38,18 +42,20 @@ const App = () => {
 
   /* Render actual component if online */
   return (
-    <div>
-      <UserContext.Provider
-        value={{ loggedInUserName: userName, setUserName: setUserName }}
-      >
-        <div>
-          <Header />
-        </div>
-        <div className="flex flex-col">
-          <Outlet />
-        </div>
-      </UserContext.Provider>
-    </div>
+    <Provider store={appStore}>
+      <div>
+        <UserContext.Provider
+          value={{ loggedInUserName: userName, setUserName: setUserName }}
+        >
+          <div>
+            <Header />
+          </div>
+          <div className="flex flex-col">
+            <Outlet />
+          </div>
+        </UserContext.Provider>
+      </div>
+    </Provider>
   );
 };
 
@@ -84,6 +90,30 @@ const router = createBrowserRouter([
             }
           >
             <Contact />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/grocery",
+        element: (
+          <Suspense
+            fallback={
+              <div className="flex text-lg font-bold p-4 m-4">Loading...</div>
+            }
+          >
+            <Grocery />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/cart",
+        element: (
+          <Suspense
+            fallback={
+              <div className="flex text-lg font-bold p-4 m-4">Loading...</div>
+            }
+          >
+            <Cart />
           </Suspense>
         ),
       },

@@ -1,11 +1,16 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [buttonName, setButtonName] = useState("Login");
   const userData = useContext(UserContext);
-  console.log(userData);
+
+  /* Subscribing to the store using selector */
+  const cartItems = useSelector((store) => {
+    return store.cart.items;
+  });
 
   return (
     <div className="flex justify-between p-4 bg-white shadow-lg">
@@ -27,7 +32,12 @@ const Header = () => {
           <li className="px-2 mx-2 py-1 my-1">
             <Link to="/contact">Contact</Link>
           </li>
-          <li className="px-2 mx-2 py-1 my-1">Cart</li>
+          <li className="px-2 mx-2 py-1 my-1">
+            <Link to="/grocery">Grocery</Link>
+          </li>
+          <li className="px-2 mx-2 py-1 my-1 font-bold">
+            <Link to="/cart">Cart ({cartItems.length} Items)</Link>
+          </li>
           <button
             className="px-2 mx-2 py-1 my-1 hover:cursor-pointer"
             onClick={() => {
